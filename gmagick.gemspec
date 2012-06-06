@@ -13,4 +13,5 @@ Gem::Specification.new do |gem|
   gem.name          = "gmagick"
   gem.require_paths = ["lib"]
   gem.version       = Gmagick::VERSION
+  gem.extensions    << 'ext/extconf.rb'
 end
