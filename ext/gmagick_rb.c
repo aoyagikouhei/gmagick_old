@@ -2,7 +2,7 @@
 #include <ruby.h>
 #include <magick/api.h>
 
-void 
+static void 
 gm_image_destroy(void *src)
 {
   Image *img = (Image *)src;
@@ -12,7 +12,7 @@ gm_image_destroy(void *src)
   }
 }
 
-VALUE
+static VALUE
 Image_alloc(VALUE klass)
 {
   volatile VALUE val;
@@ -20,12 +20,9 @@ Image_alloc(VALUE klass)
   return val;
 }
 
-VALUE test(void){
-  printf("Hello, Ruby World.\n");
-  return Qnil;
-}
-
-VALUE init(VALUE self) {
+static VALUE
+Image_init(int argc, VALUE *argv, VALUE self)
+{
 
   return self;
 }
@@ -36,8 +33,7 @@ Init_Gmagick(){
   InitializeMagick(NULL);
   mGmagick = rb_define_module("Gmagick");
   cImage = rb_define_class_under(mGmagick, "Image", rb_cObject);
-  rb_define_module_function(mGmagick, "test", test, 0);
   rb_define_alloc_func(cImage, Image_alloc);
-  rb_define_method(cImage, "initialize", init, 0);
+  rb_define_privete_method(cImage, "initialize", Image_init, 0);
 }
 
