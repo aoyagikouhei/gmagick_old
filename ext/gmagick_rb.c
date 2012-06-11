@@ -23,9 +23,23 @@ Image_alloc(VALUE klass)
 static VALUE
 Image_init(int argc, VALUE *argv, VALUE self)
 {
+  ExceptionInfo ex;
+  Image *img;
+  ImageIfno *info;
+
+  GetExceptionInfo(&ex);
+  info = CloneImageInfo((ImageInfo *) NULL);
+  img = ReadImage(info, &ex);
+
+  DestroyImageInfo(info);
+  DestroyExceptionInfo(&ex);
+  Check_Type(self, T_DATA);
+	DATA_PTR(self) = conn;
 
   return self;
 }
+
+
 
 Init_Gmagick(){
   VALUE mGmagick;
